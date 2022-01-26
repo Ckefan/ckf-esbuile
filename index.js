@@ -28,31 +28,39 @@ const globFils = async () => {
 }
 
 const buildServe = async (isPro) => {
-  console.log('正在编译...')
-  return await esbuild.build({
-    entryPoints: await globFils(),
-    bundle: false,
-    splitting: false,
-    outdir: path.join(process.cwd(), 'dist'),
-    format: 'cjs',
-    platform: 'node',
-    watch: {
-      onRebuild(err, result) {
-        console.log('编译完成')
-        // console.clear()
-        if (err) console.error(err)
+  console.log('编译中...')
+  return await esbuild
+    .build({
+      entryPoints: await globFils(),
+      bundle: false,
+      splitting: false,
+      outdir: path.join(process.cwd(), 'dist'),
+      format: 'cjs',
+      platform: 'node',
+      watch: !isPro && {
+        onRebuild(err, result) {
+          if (err) console.error(err)
+          else {
+            console.log('编译完成')
+          }
+        },
       },
-    },
-    minify: false,
-    sourcemap: false,
-    color: true,
-    loader: {
-      // 默认使用 js loader ,手动改为 jsx-loader
-      '.ts': 'tsx',
-      '.tsx': 'tsx',
-    },
-    plugins: [dtsPlugin()],
-  })
+      minify: false,
+      sourcemap: false,
+      color: true,
+      loader: {
+        // 默认使用 js loader ,手动改为 jsx-loader
+        '.ts': 'tsx',
+        '.tsx': 'tsx',
+      },
+      plugins: [dtsPlugin()],
+    })
+    .then((res) => {
+      console.log('编译完成')
+    })
+    .catch((err) => {
+      console.error(JSON.stringify(err))
+    })
 }
 
 /** dev start */

@@ -6,5 +6,5 @@
 
 ```
   ckf-esbuild dev
-  ckf-esbuild start
+  ckf-esbuild build
 ```

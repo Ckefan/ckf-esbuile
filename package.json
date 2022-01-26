@@ -12,8 +12,8 @@
     "index.js"
   ],
   "repository": {
-    "type": "gitee",
-    "url": ""
+    "type": "git",
+    "url": "https://github.com/Ckefan/ckf-esbuild.git"
   },
   "scripts": {
     "test": "echo 0",
@@ -21,16 +21,16 @@
     "build": "echo 0"
   },
   "dependencies": {
-    "cac": "^6.7.12",
-    "esbuild": "^0.14.13",
-    "esbuild-plugin-d.ts": "^1.1.0",
-    "fs-extra": "^10.0.0",
     "glob": "^7.2.0",
     "path": "^0.12.7",
-    "typescript": "^4.5.5"
+    "cac": "6.7.3",
+    "esbuild": "0.12.26",
+    "esbuild-plugin-d.ts": "1.0.6",
+    "fs-extra": "10.0.0",
+    "typescript": "4.3.5"
   },
   "devDependencies": {
-    "@types/fs-extra": "^9.0.13"
+    "@types/fs-extra": "9.0.11"
   },
   "optionalDependencies": {
     "fsevents": "~2.3.2"
