@@ -22,6 +22,7 @@ const globFils = async () => {
         console.error(err)
         process.exit(1)
       }
+      if (files.length === 0) console.error('请检查文件是否在src目标下')
       resolve(files)
     })
   })
@@ -59,7 +60,7 @@ const buildServe = async (isPro) => {
       console.log('编译完成')
     })
     .catch((err) => {
-      console.error(JSON.stringify(err))
+      console.error(JSON.stringify(err), '\r\n可能当前没有tsconfig.json配置')
     })
 }
 
