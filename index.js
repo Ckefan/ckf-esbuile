@@ -1,14 +1,12 @@
-#!/usr/bin/env node
-
-const cac = require('cac') // 监听shell 命令
-const glob = require('glob') // 获取当前项目的指定文件
-const path = require('path')
-const fs = require('fs-extra')
-const esbuild = require('esbuild')
-const { dtsPlugin } = require('esbuild-plugin-d.ts')
-
-/** process.cwd() 获取当前运行命令的目录 */
-const package = require(path.join(process.cwd(), 'package.json'))
+import cac from 'cac' // 监听shell 命令
+import chalk from 'chalk'
+import esbuild from 'esbuild'
+import { dtsPlugin } from 'esbuild-plugin-d.ts'
+import fs from 'fs-extra'
+import glob from 'glob' // 获取当前项目的指定文件
+import ora from 'ora'
+import path from 'path'
+import { version } from './package.json'
 
 const distPath = path.join(process.cwd(), 'dist')
 fs.existsSync(distPath) && fs.emptyDirSync(distPath)
@@ -29,20 +27,23 @@ const globFils = async () => {
 }
 
 const buildServe = async (isPro) => {
-  console.log('编译中...')
+  const spinner = ora(chalk.blue('Prepare to compile')).start()
   return await esbuild
     .build({
       entryPoints: await globFils(),
       bundle: false,
       splitting: false,
       outdir: path.join(process.cwd(), 'dist'),
-      format: 'cjs',
+      format: 'esm',
+      target: 'node14',
       platform: 'node',
       watch: !isPro && {
         onRebuild(err, result) {
-          if (err) console.error(err)
-          else {
-            console.log('编译完成')
+          if (err) {
+            spinner.fail(err.toString())
+          } else {
+            spinner.color = 'green'
+            spinner.succeed(chalk.green('Compile complete'))
           }
         },
       },
@@ -57,7 +58,7 @@ const buildServe = async (isPro) => {
       plugins: [dtsPlugin()],
     })
     .then((res) => {
-      console.log('编译完成')
+      spinner.succeed(chalk.green('Compile complete'))
     })
     .catch((err) => {
       console.error(JSON.stringify(err), '\r\n可能当前没有tsconfig.json配置')
@@ -82,6 +83,6 @@ cli.command('').action(async (argv) => {
 /** -h --help */
 cli.help()
 /** -v --version */
-cli.version(package.version)
+cli.version(version)
 /** 解析生效 类似开始监听*/
 cli.parse()

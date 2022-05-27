@@ -1,0 +1,9 @@
+{
+  "compilerOptions": {
+    "lib": ["es5"],
+    "module": "ESNext",
+    "allowJs": true
+  },
+  "exclude": ["node_modules"],
+  "include": ["./"]
+}
