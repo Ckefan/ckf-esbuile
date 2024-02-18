@@ -1,12 +1,12 @@
 {
-  "name": "ckf-esbuild",
-  "version": "0.0.3",
+  "name": "@jc/esbuild",
+  "version": "0.0.1",
   "description": "esbuild 打包库",
   "main": "index.js",
   "author": "chenpeng <290591923@qq.com>",
   "license": "ISC",
   "bin": {
-    "ckf-esbuild": "./dist/index.js"
+    "@jc/esbuild": "./dist/index.js"
   },
   "type": "module",
   "files": [
